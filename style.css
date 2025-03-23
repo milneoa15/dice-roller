@@ -56,6 +56,14 @@ button:hover {
     background-color: #3f3f3f;
 }
 
+.reset {
+    height: 30px;
+    margin-left: 45%;
+    margin-right: 45%;
+    width: 10%;
+    font-size: 1rem;
+}
+
 .dot {
     /*margin: 10px;*/
     display: block;
