@@ -3,34 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dice Roller</title>
     <link rel="stylesheet" href="style.css">
-    <script src="index.js"></script>
+    <script defer src="index.js"></script>
 </head>
 <body>
-    <h1 class="text">Dice Simulator</h1>
+    <main class="app">
+        <section class="card">
+            <header class="card__header">
+                <h1 class="card__title">Dice Roller</h1>
+                <p class="card__subtitle">Choose your dice, set the number to roll, and challenge a friend.</p>
+            </header>
 
-    <div class="dices">
-        <div class="flexel">
-            <h2 class="text">Player 1</h2>
-            <div class="p1 dice dice-1">
-                <div class="stretchy">
-                    <div class="dot"></div>
+            <section class="controls" aria-label="Dice configuration">
+                <div class="control">
+                    <label for="dice-count">Number of dice</label>
+                    <input id="dice-count" type="number" min="1" max="12" value="2" />
                 </div>
-            </div>
-        </div>
-        <div class="flexel">
-            <h2 class="text">Player2</h2>
-            <div class="p2 dice dice-1">
-                <div class="dot"></div>
-            </div>
-        </div>
-    </div>
+                <div class="control">
+                    <label for="dice-sides">Sides per die</label>
+                    <input id="dice-sides" type="number" min="2" max="100" value="6" />
+                </div>
+                <div class="control control--actions">
+                    <button type="button" class="btn btn--primary" data-action="roll">Roll dice</button>
+                    <button type="button" class="btn btn--ghost" data-action="reset">Reset</button>
+                </div>
+            </section>
 
-    <button onclick="onRoller()" class="text">ROLL!</button>
+            <section class="players" aria-live="polite">
+                <article class="player">
+                    <h2 class="player__title">Player 1</h2>
+                    <div class="dice-group" id="player1-dice" role="group" aria-label="Player 1 dice"></div>
+                    <p class="player__total">Total: <span id="player1-total">0</span></p>
+                </article>
+                <article class="player">
+                    <h2 class="player__title">Player 2</h2>
+                    <div class="dice-group" id="player2-dice" role="group" aria-label="Player 2 dice"></div>
+                    <p class="player__total">Total: <span id="player2-total">0</span></p>
+                </article>
+            </section>
 
-    <button onclick="resetPage()" class="reset">reset</button>
-
-    <h3 class="foot">made by olim</h3>
+            <p class="result" id="result-message">Roll the dice to begin the duel.</p>
+            <footer class="card__footer">Made with ❤️ by Olim</footer>
+        </section>
+    </main>
 </body>
 </html>
