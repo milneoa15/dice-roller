@@ -34,12 +34,16 @@ document.addEventListener("DOMContentLoaded", () => {
         return Array.from({ length: count }, () => rollDie(sides));
     }
 
-    function renderDice(container, values, sides) {
+    function renderDice(container, values, sides, { animate = false } = {}) {
         container.innerHTML = "";
 
-        values.forEach((value) => {
+        values.forEach((value, index) => {
             const die = document.createElement("div");
             die.className = "die";
+            if (animate) {
+                die.classList.add("die--rolling");
+                die.style.setProperty("--roll-delay", `${index * 0.1}s`);
+            }
             die.setAttribute("aria-label", `${value} rolled on a ${sides}-sided die`);
 
             const dieValue = document.createElement("span");
@@ -72,8 +76,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const player1Rolls = rollDiceSet(diceCount, diceSides);
         const player2Rolls = rollDiceSet(diceCount, diceSides);
 
-        renderDice(player1Container, player1Rolls, diceSides);
-        renderDice(player2Container, player2Rolls, diceSides);
+        renderDice(player1Container, player1Rolls, diceSides, { animate: true });
+        renderDice(player2Container, player2Rolls, diceSides, { animate: true });
 
         const total1 = sum(player1Rolls);
         const total2 = sum(player2Rolls);
