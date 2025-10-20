@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const player1Total = document.getElementById("player1-total");
     const player2Total = document.getElementById("player2-total");
     const resultMessage = document.getElementById("result-message");
+    const player1Section = player1Container.closest(".player");
+    const player2Section = player2Container.closest(".player");
 
     const DEFAULT_COUNT = 2;
     const DEFAULT_SIDES = 6;
@@ -34,12 +36,16 @@ document.addEventListener("DOMContentLoaded", () => {
         return Array.from({ length: count }, () => rollDie(sides));
     }
 
-    function renderDice(container, values, sides) {
+    function renderDice(container, values, sides, { animate = false } = {}) {
         container.innerHTML = "";
 
-        values.forEach((value) => {
+        values.forEach((value, index) => {
             const die = document.createElement("div");
             die.className = "die";
+            if (animate) {
+                die.classList.add("die--rolling");
+                die.style.setProperty("--roll-delay", `${index * 0.1}s`);
+            }
             die.setAttribute("aria-label", `${value} rolled on a ${sides}-sided die`);
 
             const dieValue = document.createElement("span");
@@ -56,10 +62,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function displayWinner(total1, total2) {
+        player1Section.classList.remove("player--winner");
+        player2Section.classList.remove("player--winner");
+
         if (total1 > total2) {
             resultMessage.textContent = "Player 1 takes the win!";
+            player1Section.classList.add("player--winner");
         } else if (total2 > total1) {
             resultMessage.textContent = "Player 2 triumphs!";
+            player2Section.classList.add("player--winner");
         } else {
             resultMessage.textContent = "It's a draw!";
         }
@@ -72,8 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const player1Rolls = rollDiceSet(diceCount, diceSides);
         const player2Rolls = rollDiceSet(diceCount, diceSides);
 
-        renderDice(player1Container, player1Rolls, diceSides);
-        renderDice(player2Container, player2Rolls, diceSides);
+        renderDice(player1Container, player1Rolls, diceSides, { animate: true });
+        renderDice(player2Container, player2Rolls, diceSides, { animate: true });
 
         const total1 = sum(player1Rolls);
         const total2 = sum(player2Rolls);
@@ -90,6 +101,8 @@ document.addEventListener("DOMContentLoaded", () => {
         player1Total.textContent = 0;
         player2Total.textContent = 0;
         resultMessage.textContent = "Roll the dice to begin the duel.";
+        player1Section.classList.remove("player--winner");
+        player2Section.classList.remove("player--winner");
     }
 
     function reset() {
